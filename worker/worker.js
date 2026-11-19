@@ -1,7 +1,7 @@
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    const slug = url.pathname.slice(1);
+    const slug = url.pathname.replace(/^\/+|\/+$/g, "");
 
     if (slug === "") return statsPage(env, url.origin);
     if (slug === "health") return new Response("ok");

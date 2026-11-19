@@ -4,7 +4,7 @@
 
 A serverless URL shortener running on **Cloudflare Workers** and **Workers KV**, where all infrastructure and every short link is defined in **Terraform**. Links are added or removed through pull requests: CI shows the `terraform plan` for review, and merging to `main` applies it automatically.
 
-**Live demo:** https://go.YOUR-SUBDOMAIN.workers.dev
+**Live demo:** https://go.britideepa.workers.dev
 
 ![Stats page screenshot](assets/screenshot.png)
 

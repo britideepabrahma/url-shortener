@@ -57,7 +57,7 @@ async function statsPage(env, origin) {
   return new Response(`<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Short links</title>
+<title>Short Links</title>
 <style>
   body{font-family:system-ui;background:#0f172a;color:#e2e8f0;margin:2rem auto;max-width:760px;padding:0 1rem}
   a{color:#7dd3fc;text-decoration:none}
@@ -68,7 +68,7 @@ async function statsPage(env, origin) {
   .bar{position:absolute;left:0;bottom:0;height:3px;background:#38bdf8}
 </style></head>
 <body>
-  <h1>Short links</h1>
+  <h1>Short Links</h1>
   <p class="muted">${links.length} links · ${total} clicks · links managed with Terraform, deployed by GitHub Actions</p>
   ${rows || '<p class="muted">No links yet.</p>'}
 </body></html>`, { headers: { "content-type": "text/html;charset=utf-8" } });

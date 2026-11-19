@@ -3,4 +3,5 @@ links = {
   linkedin  = "https://www.linkedin.com/in/britideepa/"
   dashboard = "https://britideepabrahma.github.io/devops-dashboard/"
   uptime    = "https://britideepabrahma.github.io/uptime-monitor/"
+  uptime    = "https://britideepabrahma.github.io/uptime-monitor/"
 }

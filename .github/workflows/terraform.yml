@@ -29,45 +29,12 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-          terraform_wrapper: false
+
       - run: terraform fmt -check -recursive
       - run: terraform init -input=false
       - run: terraform validate
       - run: terraform plan -input=false -no-color -out=tfplan
-      
-      - name: Plan summary
-        run: |
-          terraform show -json tfplan > plan.json
-          changes=$(jq '[(.resource_changes // [])[] | select(.change.actions != ["no-op"])]' plan.json)
-          add=$(echo "$changes" | jq '[.[] | select(.change.actions | index("create"))] | length')
-          update=$(echo "$changes" | jq '[.[] | select(.change.actions == ["update"])] | length')
-          destroy=$(echo "$changes" | jq '[.[] | select(.change.actions | index("delete"))] | length')
-          {
-            echo "## Terraform plan"
-            echo ""
-            if [ "$(echo "$changes" | jq 'length')" -eq 0 ]; then
-              echo "✅ **No changes.** Infrastructure matches the configuration."
-            else
-              echo "**$add to add · $update to change · $destroy to destroy**"
-              echo ""
-              echo "| Action | Resource | Target |"
-              echo "|--------|----------|--------|"
-              echo "$changes" | jq -r '.[]
-                | (if .change.actions == ["create"] then "🟢 create"
-                   elif .change.actions == ["update"] then "🟡 update"
-                   elif .change.actions == ["delete"] then "🔴 destroy"
-                   else "🟠 replace" end) as $action
-                | "| \($action) | `\(.address)` | \(.change.after.value // .change.before.value // "") |"'
-            fi
-            echo ""
-            echo "<details><summary>Full plan output</summary>"
-            echo ""
-            echo '```'
-            terraform show -no-color tfplan
-            echo '```'
-            echo "</details>"
-          } >> "$GITHUB_STEP_SUMMARY"
-          
+                
       - name: Apply
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: terraform apply -input=false -auto-approve tfplan

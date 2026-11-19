@@ -41,6 +41,8 @@ jobs:
 
       - name: Smoke test
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.WORKER_URL != ''
+        env:
+          WORKER_URL: ${{ vars.WORKER_URL }}
         run: |
           sleep 10
-          curl --fail "${{ vars.WORKER_URL }}/health"
+          curl --fail --retry 3 --retry-delay 5 "${WORKER_URL%/}/health"

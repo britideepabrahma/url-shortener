@@ -34,16 +34,7 @@ jobs:
       - run: terraform init -input=false
       - run: terraform validate
       - run: terraform plan -input=false -no-color -out=tfplan
-      
-      - name: Plan summary
-        run: |
-          {
-            echo "### Terraform plan"
-            echo '```'
-            terraform show -no-color tfplan
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
+                
       - name: Apply
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: terraform apply -input=false -auto-approve tfplan
